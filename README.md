@@ -17,6 +17,7 @@ Various configuration defaults exist (defined in `tac_user.cfg`)
 **TACACS Key:** `ciscotacacskey`  
 **Priv 15 User (IOS):** `iosadmin` **password:** `cisco`  
 **Priv 0 User (IOS):** `iosuser` **password:** `cisco`
+**Network Admin (EOS):** `eosadmin` **password:** `arista`  
 **Network Admin (NXOS):** `nxosadmin` **password:** `cisco`  
 **Network User (NXOS):** `nxosuser` **password:** `cisco`  
 **Read-write User (ACI):** `aciadmin` **password:** `cisco`  
@@ -41,6 +42,21 @@ aaa accounting commands 15 default start-stop group tacacs+
 tacacs-server host <ip> key <key>
 ```
 
+The following Arista EOS configuration was used in the development of this image:
+```
+username fufufafa role network-admin secret fufufafa
+enable password fufufafa
+aaa authentication login default group tacacs+ local
+aaa authentication login console local
+aaa authorization exec default group tacacs+ local
+aaa authorization exec console local
+aaa authorization commands all default local
+aaa authorization serial-console
+tacacs-server host x.x.x.x key rp31E2v
+aaa group server tacacs+ tac-grp-01
+  server x.x.x.x
+ip tacacs source-interface Management1
+```
 
 ## Usage
 By default all logs (including detailed information on authorization and authentication) are sent to stdout, meaning they're available to view via `docker logs` once the container is operational. This log contains all AAA information.
